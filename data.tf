@@ -1,10 +1,3 @@
-data "aws_subnets" "subnets" {
-  filter {
-    name   = "vpc-id"
-    values = [module.vpc.vpc_id]
-  }
-}
-
 data "aws_ami" "amazon" {
   owners      = ["amazon"]
   most_recent = true

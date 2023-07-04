@@ -2,7 +2,7 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "5.0.0"
 
-  name = local.name
+  name = join("-", [local.name, "vpc"])
   cidr = var.vpc_cidr
 
   azs             = ["${local.region}a", "${local.region}b"]
@@ -11,11 +11,12 @@ module "vpc" {
 
   enable_ipv6 = false
 
-  # enable_nat_gateway = true
-  # single_nat_gateway = true
+  enable_nat_gateway = true
+  single_nat_gateway = true
 
   public_subnet_tags = {
-    Name = "arbot-test-public"
+    # Name = "arbor-test-public"
+    Name = join("-", [local.name, "private"])
   }
 
   public_subnet_tags_per_az = {
@@ -25,7 +26,8 @@ module "vpc" {
   }
 
   private_subnet_tags = {
-    Name = "arbot-test-private"
+    # Name = "arbor-test-private"
+    Name = join("-", [local.name, "private"])
   }
 
   private_subnet_tags_per_az = {
@@ -42,20 +44,20 @@ module "vpc" {
 }
 
 resource "aws_cloudwatch_log_group" "vpn_endpoint_logs" {
-  name = format("%s-%s", var.environment, "arbot-test-endpoint-logs")
+  name = format("%s-%s", var.environment, "arbor-test-endpoint-logs")
   tags = local.tags
 }
 
 resource "aws_cloudwatch_log_stream" "vpn_endpoint_stream" {
-  name           = format("%s-%s", var.environment, "arbot-test-endpoint-stream")
+  name           = format("%s-%s", var.environment, "arbor-test-endpoint-stream")
   log_group_name = aws_cloudwatch_log_group.vpn_endpoint_logs.name
 }
 
-
+// Use the below to create certifications for enabling TLS
 
 
 # resource "aws_acm_certificate" "cert" {
-#   domain_name       = format("%s.%s", var.environment, "vpntest.infinityworks.com")
+#   domain_name       = format("%s.%s", var.environment, "test.arbor.com")
 #   validation_method = "DNS"
 
 #   tags = {
