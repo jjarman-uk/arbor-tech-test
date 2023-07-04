@@ -1,7 +1,8 @@
+#tfsec:ignore:aws-elb-alb-not-public
 module "alb" {
   source  = "terraform-aws-modules/alb/aws"
   version = "8.7.0"
-
+  internal = false
   name = join("-", [local.name, "nginx", "alb"])
 
   load_balancer_type = "application"
