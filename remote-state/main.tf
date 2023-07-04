@@ -10,7 +10,7 @@ resource "aws_kms_alias" "key-alias" {
 }
 
 resource "aws_s3_bucket" "terraform-state" {
- bucket = "terraform-arbor-test-state-2"
+ bucket = "terraform-arbor-test-state"
 }
 
 // Not permitted in sandbox
