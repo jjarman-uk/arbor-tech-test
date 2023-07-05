@@ -15,8 +15,7 @@ module "vpc" {
   single_nat_gateway = true
 
   public_subnet_tags = {
-    # Name = "arbor-test-public"
-    Name = join("-", [local.name, "private"])
+      Name = join("-", [local.name, "private"])
   }
 
   public_subnet_tags_per_az = {
@@ -26,7 +25,6 @@ module "vpc" {
   }
 
   private_subnet_tags = {
-    # Name = "arbor-test-private"
     Name = join("-", [local.name, "private"])
   }
 

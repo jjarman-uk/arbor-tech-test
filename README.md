@@ -50,17 +50,18 @@ terraform apply -var-file=config/dev.tfvars
 - [x] tfsec run - static code analysis for terraform stack
 - [ ] Add SSL Functionality to ALB - Currently not possible in my sandbox environment
 - [ ] Autoscaling based upon metrics for Response Time
-- [ ] Autoscaling based upon metrics for Success Rate - 5xx 
+- [ ] Autoscaling based upon metrics for Success Rate - 5xx
 - [ ] Add all tfsec rules for fix/ignore
-- [ ] Migration to Containers - Faster scale up 
+- [ ] Migration to Containers - Faster scale up
 - [ ] Load Testing - Not possible against nginx welcome page - Gatling
 - [ ] github actions ci/cd - Potentially on push to main - apply
 
 4000 schools * 20 classes * 30 peoples = Up to 80,000 registers being submitted around 930am ~ 3 million api calls
 Potential for use of SQS or other queueing service to reduce write requirements to the database
-Redis/Memcache to cache reads of class list 
+Redis/Memcache to cache reads of class list
 
 ## tfdocs
+
 ## Requirements
 
 No requirements.
