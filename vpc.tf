@@ -67,12 +67,12 @@ resource "aws_cloudwatch_log_stream" "vpn_endpoint_stream" {
 #   }
 # }
 
-# data "aws_route53_zone" "vpntest" {
-#   name         = "vpntest.infinityworks.com"
+# data "aws_route53_zone" "example" {
+#   name         = "example.com"
 #   private_zone = false
 # }
 
-# resource "aws_route53_record" "vpntest" {
+# resource "aws_route53_record" "example" {
 #   for_each = {
 #     for dvo in aws_acm_certificate.cert.domain_validation_options : dvo.domain_name => {
 #       name   = dvo.resource_record_name
@@ -89,7 +89,7 @@ resource "aws_cloudwatch_log_stream" "vpn_endpoint_stream" {
 #   zone_id         = data.aws_route53_zone.vpntest.zone_id
 # }
 
-# resource "aws_acm_certificate_validation" "vpn_validation" {
+# resource "aws_acm_certificate_validation" "example_validation" {
 #   certificate_arn         = aws_acm_certificate.cert.arn
 #   validation_record_fqdns = [for record in aws_route53_record.vpntest : record.fqdn]
 # }
