@@ -1,28 +1,57 @@
 # Arbor Tech Test Documentation
 Terraform implementation of the Arbor Tech Test
 
-
 ## Decisions Made
 
-Use Remote State to allow multiple engineers to work simultaneously
-Use community modules to simplify/abstract away (particuarly vpc config)
-
+- Use Remote State to allow multiple engineers to work simultaneously
+- Use Community modules to simplify/abstract away (particularly vpc config)
+- Use tfsec to report and improve security posture, implementing into ci/cd to prevent security flaws being introduced
+- Use CI/CD to release tf, running tests (validate/tfsec etc)
+- Use multiple AZs with an ALB to allow for a HA setup and failure of at least one AZ
+- Application run in private subnets with only load balancer public facing
+- Use NAT Gateway to allow application internet access if required
+- Use Cloudwatch metric alarms / lifecycle hooks to act when success rates fall and responses times rise (scale up on error rate increase, slowing response times)
+- tfdocs to generate documentation
 
 ## Common Tasks
 
+### Setup
+
+- Remote State Setup
+
+``` console
+cd remote-state
+terraform init
+terraform apply
+```
+
 ### Dev
 
-Run `terraform workspace select dev`
-`terraform plan -var-file=config/dev.tfvars`
-`terraform apply -var-file=config/dev.tfvars`
+- Project init
+
+``` console
+terraform init
+terraform workspace new dev
+terraform plan -var-file=config/dev.tfvar
+terraform apply -var-file=config/dev.tfvar
+```
+
+- Running out tf
+
+``` console
+terraform workspace select dev
+terraform plan -var-file=config/dev.tfvars
+terraform apply -var-file=config/dev.tfvars
+```
 
 ## Todo
 
 - [x] Code Tidy
+- [x] tfsec run - static code analysis for terraform stack
 - [ ] Add SSL Functionality to ALB - Currently not possible in my sandbox environment
 - [ ] Autoscaling based upon metrics for Response Time
 - [ ] Autoscaling based upon metrics for Success Rate - 5xx 
-- [ ] Add all tfsec rules for fix/ignore - static code analysis for terraform stack
+- [ ] Add all tfsec rules for fix/ignore
 - [ ] Migration to Containers - Faster scale up 
 - [ ] Load Testing - Not possible against nginx welcome page - Gatling
 - [ ] github actions ci/cd - Potentially on push to main - apply
@@ -31,7 +60,7 @@ Run `terraform workspace select dev`
 Potential for use of SQS or other queueing service to reduce write requirements to the database
 Redis/Memcache to cache reads of class list 
 
-## TFDocs
+## tfdocs
 ## Requirements
 
 No requirements.
@@ -75,3 +104,7 @@ No requirements.
 | Name | Description |
 |------|-------------|
 | <a name="output_load_balancer_dns"></a> [load\_balancer\_dns](#output\_load\_balancer\_dns) | n/a |
+
+## Architecture Diagram
+
+![alt text](architecture.png)
