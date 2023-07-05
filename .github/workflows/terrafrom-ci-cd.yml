@@ -1,0 +1,40 @@
+name: Terraform CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 
+
+      - name: Initialize Terraform
+        run: terraform init
+
+      - name: Format Terraform code
+        run: terraform fmt -check
+
+      - name: Validate Terraform code
+        run: terraform validate
+
+      - name: Plan Terraform changes
+        id: plan
+        run: terraform plan -out=tfplan
+
+      - name: Apply Terraform changes
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: terraform apply tfplan
+
+      - name: Destroy Terraform resources
+        if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main' && contains(github.event.head_commit.message, 'destroy'))
+        run: terraform destroy -auto-approve
