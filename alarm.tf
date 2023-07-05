@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_metric_alarm" "elb_5xx_alarm" {
-  alarm_name          = "ELB_4XX_Alarm"
+  alarm_name          = "ELB_5XX_Alarm"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "3"
   metric_name         = "HTTPCode_ELB_5XX_Count"
